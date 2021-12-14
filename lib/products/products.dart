@@ -25,25 +25,22 @@ class _ProductsPageState extends State<ProductsPage> {
   //init data fetch
   void getData() async {
     await apiservice.fetchCats().then((data) => {
-          setState(
-            () {
-              _cats = data;
-              _catLoading = false;
-            },
-          ),
+          setState(() {
+            _cats = data;
+            _catLoading = false;
+          }),
         });
 
     fetchProducts();
   }
 
+  //fetch product
   void fetchProducts() async {
     await apiservice.fetchProducts(getUrl()).then((data) => {
-          setState(
-            () {
-              _products = data;
-              _productLoading = false;
-            },
-          ),
+          setState(() {
+            _products = data;
+            _productLoading = false;
+          }),
         });
   }
 
@@ -57,12 +54,10 @@ class _ProductsPageState extends State<ProductsPage> {
       _page = 0;
     });
     await apiservice.fetchsubCats(_selectCat).then((data) => {
-          setState(
-            () {
-              _subcats = data;
-              _catLoading = false;
-            },
-          ),
+          setState(() {
+            _subcats = data;
+            _catLoading = false;
+          }),
         });
 
     fetchProducts();
@@ -205,7 +200,7 @@ class _ProductsPageState extends State<ProductsPage> {
                 controller: _scrlcrtl,
                 itemBuilder: (context, index) {
                   final product = _products[index];
-                  //product Listtile
+                  //product listtile
                   return productTile(product);
                 },
                 separatorBuilder: (context, index) {
