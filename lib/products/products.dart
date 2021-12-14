@@ -39,13 +39,13 @@ class _ProductsPageState extends State<ProductsPage> {
     setState(() {
       _catLoading = true;
       _productLoading = true;
+      _selectCat = cat;
+      _selectsubCat = null;
+      _page = 0;
     });
     _subcats = await apiservice.fetchsubCats(cat);
     _products = await apiservice.fetchProducts(getUrl());
     setState(() {
-      _selectCat = cat;
-      _selectsubCat = null;
-      _page = 0;
       _subcats = _subcats;
       _products = _products;
       _catLoading = false;
@@ -57,11 +57,11 @@ class _ProductsPageState extends State<ProductsPage> {
   void _setsubCat(cat) async {
     setState(() {
       _productLoading = true;
+      _selectsubCat = cat;
+      _page = 0;
     });
     _products = await apiservice.fetchProducts(getUrl());
     setState(() {
-      _selectsubCat = cat;
-      _page = 0;
       _products = _products;
       _productLoading = false;
     });
