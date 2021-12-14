@@ -9,7 +9,9 @@ Row catRow(
     children: [
       for (var cat in _cats)
         Padding(
-          padding: const EdgeInsets.only(right: 10),
+          padding: const EdgeInsets.only(
+            right: 10,
+          ),
           child: ActionChip(
             backgroundColor: _selectCat == cat['id']
                 ? Colors.green.shade400
@@ -18,12 +20,10 @@ Row catRow(
               '${cat['name']}',
             ),
             onPressed: () {
-              _setCat(
-                cat['id'],
-              );
+              _setCat(cat['id']);
             },
           ),
-        )
+        ),
     ],
   );
 }

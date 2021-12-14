@@ -22,6 +22,17 @@ class _ProductsPageState extends State<ProductsPage> {
   bool _catLoading = true;
   final apiservice = ApiService();
   final ScrollController _scrlcrtl = ScrollController();
+
+  //show snackbar
+  void showSnackbar(msg) {
+    final snackBar = SnackBar(
+      content: Text(msg),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(
+      snackBar,
+    );
+  }
+
   //init data fetch
   void getData() async {
     await apiservice.fetchCats().then((data) => {
@@ -36,12 +47,25 @@ class _ProductsPageState extends State<ProductsPage> {
 
   //fetch product
   void fetchProducts() async {
-    await apiservice.fetchProducts(getUrl()).then((data) => {
-          setState(() {
-            _products = data;
-            _productLoading = false;
-          }),
-        });
+    await apiservice
+        .fetchProducts(getUrl())
+        .then(
+          (data) => {
+            setState(() {
+              _products = data;
+              _productLoading = false;
+            })
+          },
+        )
+        .onError(
+          (error, stackTrace) => {
+            setState(() {
+              _products = [];
+              _productLoading = false;
+            }),
+            showSnackbar(error.toString()),
+          },
+        );
   }
 
   //set category action
@@ -141,48 +165,52 @@ class _ProductsPageState extends State<ProductsPage> {
         elevation: 0.5,
         centerTitle: true,
         bottom: PreferredSize(
-          child: Column(
-            children: _catLoading
-                ? const [
-                    CircularProgressIndicator(),
-                    SizedBox(
-                      height: 15,
-                    )
-                  ]
-                : [
-                    ListTile(
-                      leading: Icon(
-                        Icons.grid_on,
-                        color: Colors.red.shade900,
-                      ),
-                      minLeadingWidth: 0.0,
-                      title: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        //scrollable category widget
-                        child: catRow(
-                          _cats,
-                          _selectCat,
-                          _setCat,
-                        ),
-                      ),
+          child: Visibility(
+            visible: _catLoading,
+            child: Column(
+              children: const [
+                CircularProgressIndicator(),
+                SizedBox(
+                  height: 15,
+                ),
+              ],
+            ),
+            replacement: Column(
+              children: [
+                ListTile(
+                  leading: Icon(
+                    Icons.grid_on,
+                    color: Colors.red.shade900,
+                  ),
+                  minLeadingWidth: 0.0,
+                  title: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    //scrollable category widget
+                    child: catRow(
+                      _cats,
+                      _selectCat,
+                      _setCat,
                     ),
-                    ListTile(
-                      minLeadingWidth: 0.0,
-                      leading: Icon(
-                        Icons.filter_alt,
-                        color: Colors.red.shade900,
-                      ),
-                      title: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        //scrollable sub category widget
-                        child: subcatRow(
-                          _subcats,
-                          _selectsubCat,
-                          _setsubCat,
-                        ),
-                      ),
+                  ),
+                ),
+                ListTile(
+                  minLeadingWidth: 0.0,
+                  leading: Icon(
+                    Icons.filter_alt,
+                    color: Colors.red.shade900,
+                  ),
+                  title: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    //scrollable sub category widget
+                    child: subcatRow(
+                      _subcats,
+                      _selectsubCat,
+                      _setsubCat,
                     ),
-                  ],
+                  ),
+                ),
+              ],
+            ),
           ),
           preferredSize: Size(
             MediaQuery.of(context).size.width,
@@ -190,28 +218,30 @@ class _ProductsPageState extends State<ProductsPage> {
           ),
         ),
       ),
-      body: _productLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : Visibility(
-              visible: _products.isNotEmpty,
-              child: ListView.separated(
-                controller: _scrlcrtl,
-                itemBuilder: (context, index) {
-                  final product = _products[index];
-                  //product listtile
-                  return productTile(product);
-                },
-                separatorBuilder: (context, index) {
-                  return const Divider();
-                },
-                itemCount: _products.length,
-              ),
-              replacement: const Center(
-                child: Text('No Products'),
-              ),
-            ),
+      body: Visibility(
+        visible: !_productLoading,
+        child: Visibility(
+          visible: _products.isNotEmpty,
+          child: ListView.separated(
+            controller: _scrlcrtl,
+            itemBuilder: (context, index) {
+              final product = _products[index];
+              //product listtile
+              return productTile(product);
+            },
+            separatorBuilder: (context, index) {
+              return const Divider();
+            },
+            itemCount: _products.length,
+          ),
+          replacement: const Center(
+            child: Text('No Products'),
+          ),
+        ),
+        replacement: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
     );
   }
 }

@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
 ListTile productTile(product) {
+  final imgUrl = product['offers'] == null
+      ? product['images'][0]['image_url']
+      : product['offers']['price_book']['file'];
+
   return ListTile(
     isThreeLine: true,
-    leading: product['offers'] == null
-        ? Image.network(
-            'https://sta.farawlah.sa/storage/${product['images'][0]['image_url']}',
-            width: 100,
-          )
-        : Image.network(
-            'https://sta.farawlah.sa/storage/${product['offers']['price_book']['file']}',
-            width: 100,
-          ),
+    leading: Image.network(
+      'https://sta.farawlah.sa/storage/$imgUrl',
+      width: 100,
+    ),
     minLeadingWidth: 0.0,
     title: Text(
       '${product['name']}',

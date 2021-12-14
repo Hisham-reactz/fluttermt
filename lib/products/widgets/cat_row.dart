@@ -10,7 +10,9 @@ Row subcatRow(
     children: [
       for (var subcat in _subcats)
         Padding(
-          padding: const EdgeInsets.only(right: 10),
+          padding: const EdgeInsets.only(
+            right: 10,
+          ),
           child: ActionChip(
             backgroundColor: _selectsubCat == subcat['id']
                 ? Colors.green.shade400
@@ -19,12 +21,10 @@ Row subcatRow(
               '${subcat['name']}',
             ),
             onPressed: () {
-              _setsubCat(
-                subcat['id'],
-              );
+              _setsubCat(subcat['id']);
             },
           ),
-        )
+        ),
     ],
   );
 }

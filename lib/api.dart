@@ -12,8 +12,7 @@ class ApiService {
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      return jsonDecode("[]");
-      // throw Exception('Failed to load products');
+      throw Exception('Failed to load products');
     }
   }
 
@@ -27,8 +26,7 @@ class ApiService {
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      return jsonDecode("[]");
-      // throw Exception('Failed to load cats');
+      throw Exception('Failed to load cats');
     }
   }
 
@@ -42,8 +40,7 @@ class ApiService {
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      return jsonDecode("[]");
-      // throw Exception('Failed to load sub cats');
+      throw Exception('Failed to load sub cats');
     }
   }
 }

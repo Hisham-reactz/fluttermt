@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttermt/products/products.dart';
 
 void main() {
-  runApp(const MtApp());
+  runApp(
+    const MtApp(),
+  );
 }
 
 class MtApp extends StatelessWidget {
