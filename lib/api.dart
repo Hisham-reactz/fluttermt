@@ -4,7 +4,7 @@ import 'dart:convert';
 class ApiService {
   final String baseUrl = 'https://sta.farawlah.sa';
 
-  fetchProducts(url) async {
+  Future fetchProducts(url) async {
     final response = await http.get(
       Uri.parse(url),
     );
@@ -12,11 +12,12 @@ class ApiService {
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to load products');
+      return jsonDecode("[]");
+      // throw Exception('Failed to load products');
     }
   }
 
-  fetchCats() async {
+  Future fetchCats() async {
     final response = await http.get(
       Uri.parse(
         '$baseUrl/api/mobile/categories',
@@ -26,11 +27,12 @@ class ApiService {
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to load cats');
+      return jsonDecode("[]");
+      // throw Exception('Failed to load cats');
     }
   }
 
-  fetchsubCats(_selectCat) async {
+  Future fetchsubCats(_selectCat) async {
     final response = await http.get(
       Uri.parse(
         '$baseUrl/api/mobile/subcategories?parent_id=$_selectCat',
@@ -40,7 +42,8 @@ class ApiService {
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to load sub cats');
+      return jsonDecode("[]");
+      // throw Exception('Failed to load sub cats');
     }
   }
 }

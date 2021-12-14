@@ -24,14 +24,27 @@ class _ProductsPageState extends State<ProductsPage> {
   final ScrollController _scrlcrtl = ScrollController();
   //init data fetch
   void getData() async {
-    _cats = await apiservice.fetchCats();
-    _products = await apiservice.fetchProducts(getUrl());
-    setState(() {
-      _cats = _cats;
-      _products = _products;
-      _catLoading = false;
-      _productLoading = false;
-    });
+    await apiservice.fetchCats().then((data) => {
+          setState(
+            () {
+              _cats = data;
+              _catLoading = false;
+            },
+          ),
+        });
+
+    fetchProducts();
+  }
+
+  void fetchProducts() async {
+    await apiservice.fetchProducts(getUrl()).then((data) => {
+          setState(
+            () {
+              _products = data;
+              _productLoading = false;
+            },
+          ),
+        });
   }
 
   //set category action
@@ -43,14 +56,16 @@ class _ProductsPageState extends State<ProductsPage> {
       _selectsubCat = null;
       _page = 0;
     });
-    _subcats = await apiservice.fetchsubCats(cat);
-    _products = await apiservice.fetchProducts(getUrl());
-    setState(() {
-      _subcats = _subcats;
-      _products = _products;
-      _catLoading = false;
-      _productLoading = false;
-    });
+    await apiservice.fetchsubCats(_selectCat).then((data) => {
+          setState(
+            () {
+              _subcats = data;
+              _catLoading = false;
+            },
+          ),
+        });
+
+    fetchProducts();
   }
 
   //set sub category action
@@ -60,11 +75,8 @@ class _ProductsPageState extends State<ProductsPage> {
       _selectsubCat = cat;
       _page = 0;
     });
-    _products = await apiservice.fetchProducts(getUrl());
-    setState(() {
-      _products = _products;
-      _productLoading = false;
-    });
+
+    fetchProducts();
   }
 
   //scroll pagination
@@ -74,11 +86,8 @@ class _ProductsPageState extends State<ProductsPage> {
         top ? _page-- : _page++;
         _productLoading = true;
       });
-      _products = await apiservice.fetchProducts(getUrl());
-      setState(() {
-        _products = _products;
-        _productLoading = false;
-      });
+
+      fetchProducts();
     }
   }
 
@@ -155,7 +164,11 @@ class _ProductsPageState extends State<ProductsPage> {
                       title: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         //scrollable category widget
-                        child: catRow(_cats, _selectCat, _setCat),
+                        child: catRow(
+                          _cats,
+                          _selectCat,
+                          _setCat,
+                        ),
                       ),
                     ),
                     ListTile(
@@ -167,7 +180,11 @@ class _ProductsPageState extends State<ProductsPage> {
                       title: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         //scrollable sub category widget
-                        child: subcatRow(_subcats, _selectsubCat, _setsubCat),
+                        child: subcatRow(
+                          _subcats,
+                          _selectsubCat,
+                          _setsubCat,
+                        ),
                       ),
                     ),
                   ],
@@ -182,17 +199,23 @@ class _ProductsPageState extends State<ProductsPage> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : ListView.separated(
-              controller: _scrlcrtl,
-              itemBuilder: (context, index) {
-                final product = _products[index];
-                //product Listtile
-                return productTile(product);
-              },
-              separatorBuilder: (context, index) {
-                return const Divider();
-              },
-              itemCount: _products.length,
+          : Visibility(
+              visible: _products.isNotEmpty,
+              child: ListView.separated(
+                controller: _scrlcrtl,
+                itemBuilder: (context, index) {
+                  final product = _products[index];
+                  //product Listtile
+                  return productTile(product);
+                },
+                separatorBuilder: (context, index) {
+                  return const Divider();
+                },
+                itemCount: _products.length,
+              ),
+              replacement: const Center(
+                child: Text('No Products'),
+              ),
             ),
     );
   }
