@@ -16,14 +16,14 @@ ListTile productTile(product) {
     title: Text(
       '${product['name']}',
       style: const TextStyle(
-        fontSize: 17,
+        fontSize: 16,
         fontWeight: FontWeight.w600,
       ),
     ),
     subtitle: Text(
       '${product['price']['sale_price']} SAR',
       style: TextStyle(
-        fontSize: 17,
+        fontSize: 16,
         fontWeight: FontWeight.w700,
         color: Colors.green.shade400,
       ),
