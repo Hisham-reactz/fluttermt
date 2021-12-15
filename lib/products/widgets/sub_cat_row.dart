@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 
-Row catRow(
-  _cats,
-  _selectCat,
-  _setCat,
+Row subcatRow(
+  _subcats,
+  _selectsubCat,
+  _setsubCat,
 ) {
   return Row(
+    mainAxisSize: MainAxisSize.max,
     children: [
-      for (var cat in _cats)
+      for (var subcat in _subcats)
         Padding(
           padding: const EdgeInsets.only(
             right: 10,
           ),
           child: ActionChip(
-            backgroundColor: _selectCat == cat['id']
+            backgroundColor: _selectsubCat == subcat['id']
                 ? Colors.green.shade400
                 : Colors.blueGrey.shade100,
             label: Text(
-              '${cat['name']}',
+              '${subcat['name']}',
             ),
             onPressed: () {
-              _setCat(cat['id']);
+              _setsubCat(subcat['id']);
             },
           ),
         ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttermt/api.dart';
-import 'package:fluttermt/products/widgets/cat_row.dart';
-import 'package:fluttermt/products/widgets/product_tile.dart';
 import 'package:fluttermt/products/widgets/sub_cat_row.dart';
+import 'package:fluttermt/products/widgets/product_tile.dart';
+import 'package:fluttermt/products/widgets/cat_row.dart';
 
 class ProductsPage extends StatefulWidget {
   const ProductsPage({Key? key, required this.title}) : super(key: key);
@@ -113,12 +113,9 @@ class _ProductsPageState extends State<ProductsPage> {
   //url set
   String getUrl() {
     String catstring = _selectCat != null ? 'parent_category_id=' : '';
-    String subcatstring = _selectsubCat != null ? 'category_id=' : '';
-    String url = '''${apiservice.baseUrl}/api/mobile/products?
-        $catstring${_selectCat ?? ''}
-        &$subcatstring${_selectsubCat ?? ''}
-        &store_id=2&offset=$_page
-        &limit=20&sort_by=sale_price&sort_type=DESC''';
+    String subcatstring = _selectsubCat != null ? '&category_id=' : '';
+    String url =
+        '${apiservice.baseUrl}/api/mobile/products?$catstring${_selectCat ?? ''}$subcatstring${_selectsubCat ?? ''}&store_id=2&offset=$_page&limit=20&sort_by=sale_price&sort_type=DESC';
     return url;
   }
 
