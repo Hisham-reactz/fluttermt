@@ -48,7 +48,7 @@ class _ProductsPageState extends State<ProductsPage> {
   //fetch product
   void fetchProducts() async {
     await apiservice
-        .fetchProducts(getUrl())
+        .fetchProducts(getUrlparams())
         .then(
           (data) => {
             setState(() {
@@ -111,12 +111,12 @@ class _ProductsPageState extends State<ProductsPage> {
   }
 
   //url set
-  String getUrl() {
-    String catstring = _selectCat != null ? 'parent_category_id=' : '';
+  String getUrlparams() {
+    String catstring = _selectCat != null ? '&parent_category_id=' : '';
     String subcatstring = _selectsubCat != null ? '&category_id=' : '';
-    String url =
-        '${apiservice.baseUrl}/api/mobile/products?$catstring${_selectCat ?? ''}$subcatstring${_selectsubCat ?? ''}&store_id=2&offset=$_page&limit=20&sort_by=sale_price&sort_type=DESC';
-    return url;
+    String urlParams =
+        'offset=$_page$catstring${_selectCat ?? ''}$subcatstring${_selectsubCat ?? ''}';
+    return urlParams;
   }
 
   @override

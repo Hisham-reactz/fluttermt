@@ -5,8 +5,10 @@ class ApiService {
   final String baseUrl = 'https://sta.farawlah.sa';
 
   Future fetchProducts(url) async {
+    final prodUrl =
+        '$baseUrl/api/mobile/products?store_id=2&limit=20&sort_by=sale_price&sort_type=DESC&$url';
     final response = await http.get(
-      Uri.parse(url),
+      Uri.parse(prodUrl),
     );
 
     if (response.statusCode == 200) {
