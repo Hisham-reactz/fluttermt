@@ -8,7 +8,7 @@ Row subcatRow(
   return Row(
     mainAxisSize: MainAxisSize.max,
     children: [
-      for (var subcat in _subcats)
+      for (final subcat in _subcats)
         Padding(
           padding: const EdgeInsets.only(
             right: 10,

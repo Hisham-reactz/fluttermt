@@ -7,7 +7,7 @@ Row catRow(
 ) {
   return Row(
     children: [
-      for (var cat in _cats)
+      for (final cat in _cats)
         Padding(
           padding: const EdgeInsets.only(
             right: 10,
