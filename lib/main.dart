@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fluttermt/products/products.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttermt/products/views/product_view.dart';
 
 void main() {
   runApp(
-    const MtApp(),
+    const ProviderScope(
+      child: MtApp(),
+    ),
   );
 }
 
@@ -17,9 +20,7 @@ class MtApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ProductsPage(
-        title: '',
-      ),
+      home: const ProductsPage(),
     );
   }
 }
