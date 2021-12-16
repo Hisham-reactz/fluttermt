@@ -1,8 +1,6 @@
 import 'package:fluttermt/api.dart';
-import 'package:fluttermt/models/product/product.dart';
 import 'package:riverpod/riverpod.dart';
 
-/// An object that controls a list of [Product].
 class ProductList extends StateNotifier<List<dynamic>> {
   ProductList([List<dynamic>? initialTasks]) : super(initialTasks ?? []);
 

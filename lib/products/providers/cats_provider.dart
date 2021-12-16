@@ -1,8 +1,6 @@
 import 'package:fluttermt/api.dart';
-import 'package:fluttermt/models/product/category.dart';
 import 'package:riverpod/riverpod.dart';
 
-/// An object that controls a list of [Category].
 class CatList extends StateNotifier<List<dynamic>> {
   CatList([List<dynamic>? initialCats]) : super(initialCats ?? []);
 
